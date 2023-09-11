@@ -1,24 +1,19 @@
-import React, {useState}  from 'react'
+import React, { useState } from 'react'
 import { useStateContext } from '@/context/context'
+import { Banner, Footer, MovieList } from '.'
 
 const LandingPage = () => {
- const { allData } = useStateContext()
- console.log(allData)
- return(
-    <div>
-<Banner />
-        <div>
-            <h3>Featured Movies</h3>
-            {allData.map((item, key) => (
-            <div key={key}>
-                    <p>{item.title}</p>
-            </div>
-        ))
-        }
+    const { allData } = useStateContext()
+    console.log(allData)
+    return (
+        <div className='w-full h-full'>
+            <Banner />
+           <div>
+            <MovieList />
+           </div>
+            <Footer />
         </div>
-      
-    </div>
- )
+    )
 }
 
 export default LandingPage;
