@@ -24,15 +24,14 @@ export function Carousel() {
                 newBanner.map((item, index) => (
                     <div
                         key={index}
-                        className={`relative h-3/5 w-full m-auto group ${index === currentIndex ? "" : "hidden"
+                        className={`relative h-screen w-full m-auto group ${index === currentIndex ? "" : "hidden"
                             }`}
                     >
                         <img
-                            width={250}
-                            height={250}
+        
                             src={`${baseURL}${item.backdrop_path}`}
                             alt={item.title}
-                            className='w-full h-full object-fill'
+                            className='w-full h-full object-cover'
                         />
                         <div onClick={prevSlide} className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-Black/20 text/white cursor-pointer'>
                             <span className="prev" >&#10094;</span>

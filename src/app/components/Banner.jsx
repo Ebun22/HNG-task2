@@ -7,7 +7,7 @@ import Image from "next/image";
 const Banner = () => {
     const { bannerData, baseURL } = useStateContext()
     return (
-        <div className="h-1/4">
+        <div className="h-screen">
             <Carousel />
         </div>
     )

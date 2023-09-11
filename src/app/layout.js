@@ -14,11 +14,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StateContext>
-          <main >{children}</main>
-        </StateContext>
+      <StateContext>
+        <main >{children}</main>
+      </StateContext>
       </body>
-
+      
     </html>
   )
 }
