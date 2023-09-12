@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 
 //Lol this is just stage 2 and I want to pass out. 
 //what is wrong with this API. this is not how stage 2 should be o
+//arghhh fuck. why aren't these endpoints straight forward. this can't be  real life case, I'd legit throw hands with the backend dev
 
 const ChangeContext = createContext(null)
 
