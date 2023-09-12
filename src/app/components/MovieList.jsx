@@ -3,7 +3,7 @@ import { useStateContext } from '@/context/context'
 
 
 const MovieList = () => {
-    const { allData, baseURL,genreID, getGenrefromID, genreData, genreNames, language, setLanguage } = useStateContext()
+    const { allData, baseURL, genreID, getGenrefromID, genreData, genreNames, language, setLanguage } = useStateContext()
     console.log("this is the genre data", genreData)
     console.log("this is the languages data",  language)
 
