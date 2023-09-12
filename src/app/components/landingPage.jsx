@@ -4,7 +4,6 @@ import { Banner, Footer, MovieList } from '.'
 
 const LandingPage = () => {
     const { allData } = useStateContext()
-    console.log(allData)
     return (
         <div className='w-full h-full'>
             <Banner />
