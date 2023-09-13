@@ -22,7 +22,10 @@ const StateContext = ({ children }) => {
     const [language, setLanguage] = useState([])
     const [genreData, setGenreData] = useState([])
     const [movieDetails, setMovieDetails] = useState([])
+    const [movieCredits, setMovieCredits] = useState([])
     const [params, setParams] = useState('')
+    const [detailLang, setDetailLang] = useState('')
+    const [detailCountry, setDetailCountry] = useState('')
     const [bannerURL, setBannerURL] = useState('https://api.themoviedb.org/3/movie/upcoming?api_key=676abacf856fab82a2a03223135d9541')
     const [URL, setURL] = useState('https://api.themoviedb.org/3//movie/top_rated?api_key=676abacf856fab82a2a03223135d9541')
     const baseURL = "https://www.themoviedb.org/t/p/w220_and_h330_face/"
@@ -148,20 +151,35 @@ const StateContext = ({ children }) => {
             throw new Error("Poor network connection. Please try again")
         }
     }
+  //Get movie details and credits when params changes
+  useEffect(() => {
+    getMovieDetails();
+}, [params])
 
-    //Get movie details when params changes
-    useEffect(() => {
-        getMovieDetails();
-    }, [params])
+  
     const getMovieCredit = async () => {
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${params}/credits?language=en-US`, {
-            method: 'GET',
-            header: new Headers({
-                accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
+        try {
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${params}/credits?language=${detailLang}-${detailCountry}`, {
+                method: 'GET',
+                header: new Headers({
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
+                })
             })
-        })
+
+            if (response.status === 200) {
+                const result = await response.json();
+                console.log(result)
+                setMovieCredits(result)
+            }
+        } catch (error) {
+            throw new Error("poor nextwork connection")
+        }
     }
+    useEffect(() => {
+        getMovieCredit();
+    }, [detailLang])
+    
     const value = {
         allData,
         bannerData,
@@ -175,6 +193,10 @@ const StateContext = ({ children }) => {
         getMovieDetails,
         movieDetails,
         setMovieDetails,
+        movieCredits,
+        setDetailLang,
+        setDetailCountry,
+        detailCountry
     }
 
     return <ChangeContext.Provider value={value}>

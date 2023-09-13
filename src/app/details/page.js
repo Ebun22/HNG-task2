@@ -8,15 +8,20 @@ import { SideNavBar } from '../components';
 
 export default function Home({ searchParams }) {
 
-    const { allData, baseURL, getGenrefromID, genreData, setParams, genreNames, getMovieDetails, movieDetails, setLanguage } = useStateContext()
+    const { allData, baseURL, movieCredits, detailCountry, setDetailLang, setDetailCountry, getGenrefromID, genreData, setParams, genreNames, getMovieDetails, movieDetails, setLanguage } = useStateContext()
+    console.log(movieCredits)
+    const { backdrop_path, imdb_id, original_language, genres, production_countries, overview, original_title, poster_path, release_date, runtime } = movieDetails
 
     useEffect(() => {
         setParams(searchParams.id)
+        setDetailLang(original_language)
+        if (production_countries) {
+            const [country] = production_countries;
+            setDetailCountry(country.iso_3166_1);
+        }
     }, [])
 
 
-    const { backdrop_path, imdb_id, original_language,
-        overview, original_title, poster_path, release_date, runtime } = movieDetails
 
     return (
         <div className=' w-full h-full flex flex-row'>
@@ -49,7 +54,7 @@ export default function Home({ searchParams }) {
                                 <span></span>
                             </div>
                             <div className="flex flex-row w-full text-rose-700 p-1 border-solid border border-rose-700 rounded-lg">
-                                {genres.map((item, index) => {
+                                {genres?.map((item, index) => {
                                     <p key={index}>{item.name}</p>
                                 })}
                             </div>
