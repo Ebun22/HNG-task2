@@ -12,19 +12,20 @@ export default function Home({ searchParams }) {
     console.log(movieCredits)
     const { backdrop_path, imdb_id, original_language, genres, production_countries, overview, original_title, poster_path, release_date, runtime } = movieDetails
 
-    if (typeof movieCredits === 'undefined') {
-        return [];
-    }const getCrew = () => {
-        const directorNames = movieCredits.crew
+    const getCrew = () => {
+        if (!movieCredits) {
+            return []; // Handle the case where movieCredits is not available
+        }
+
+        const directorNames = movieCredits?.crew
             .filter(item => item.known_for_department === "Directing")
             .map(name => name.name);
 
         const uniqueDirectorNames = [...new Set(directorNames)];
-        // console.log(uniqueDirectorNames);
-        uniqueDirectorNames.forEach(item => {
-            return item
-        })
+        return uniqueDirectorNames;
     }
+
+    // Call the getCrew function to obtain the director names
     const directors = getCrew();
 
     useEffect(() => {
@@ -72,31 +73,68 @@ export default function Home({ searchParams }) {
                         </p>
                         <div>
                             {directors ? (
-                                <p>
+                                <p className="flex flex-row">
+                                    Directors:
                                     {directors.map((director, index) => (
-                                        <p key={index}>{director}</p>
+                                        <p key={index}>{" " + director}</p>
                                     ))}
                                 </p>
                             ) : (
                                 <p>No directors found.</p>
                             )}
-                            <p>Writers:
-                                {/* {
+                            <p className="flex flex-row">Writers:
+                                {movieCredits ? (
                                     movieCredits.crew.filter(item => item.known_for_department == "Writing" & item.job == "Screenplay").map(item => (
-                                        <p>{item.name}</p>
+                                        <p>{" " + item.name}</p>
                                     ))
-                                } */}
+                                ) : (
+                                    <p>No Writers</p>
+                                )     
+                                }
                             </p>
                             <p className="flex flex-row">Stars:
-                                {/* {
+                                {movieCredits ? (
                                     movieCredits.cast?.slice(0, 3).map((item, index) => (
                                         <p key={index}>{index < movieCredits.cast?.slice(0, 3).length - 1 ? item.name + ", " : item.name + " "}</p>
-                                    ))
-                                } */}
+                                    )) 
+                                ) : (
+                                    <p>No stars</p>
+                                )        
+                                }
                             </p>
                         </div>
+                        <div className="flex flex-row">
+                            <p className="p-2 bg-rose-700 rounded-lg"> Top rated movie #65</p>
+                            <p clasName="flex flex-row"><p>Awards 9 nominations</p><p>V</p></p>
+                        </div>
                     </div>
-                    <div></div>
+                    <div>
+                        <div>
+                            <button className="p-2 px-4 bg-rose-700 rounded-lg">See Showtimes</button>
+                            <button className="p-2 px-4 bg-rose-100 rounded-lg">More watch options</button>
+                        </div>
+                        <div>
+                            <Image 
+                                src="/"
+                                alt="movie"
+                                width={100}
+                                height={200}
+                            />
+                              <Image 
+                                src="/"
+                                alt="movie"
+                                width={100}
+                                height={200}
+                            />
+                              <Image 
+                                src="/"
+                                alt="movie"
+                                width={100}
+                                height={200}
+                            />
+                        </div>
+
+                    </div>
                 </div>
             </div>
 

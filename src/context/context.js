@@ -180,20 +180,6 @@ const StateContext = ({ children }) => {
         getMovieCredit();
     }, [params])
 
-    // const getCrew = () => {
-
-    //     console.log(movieCredits)
-    //     // if(movieCredits){
-    //     //     const crew = movieCredits.crew.filter(item => item.includes(item.known_for_department === "Writing"));
-    //     //     console.log(crew)
-    //     // }
-        
-    // }
-
-   if(movieCredits){
-            // const crew = movieCredits.crew.filter(item => item.includes(item.known_for_department === "Writing"));
-            console.log(movieCredits)
-        }
 
     const value = {
         allData,
