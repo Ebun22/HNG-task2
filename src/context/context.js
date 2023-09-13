@@ -21,8 +21,8 @@ const StateContext = ({ children }) => {
     const [bannerData, setBannerData] = useState([])
     const [language, setLanguage] = useState([])
     const [genreData, setGenreData] = useState([])
-    const [params, setParams] = useState('')
     const [movieDetails, setMovieDetails] = useState([])
+    const [params, setParams] = useState('')
     const [bannerURL, setBannerURL] = useState('https://api.themoviedb.org/3/movie/upcoming?api_key=676abacf856fab82a2a03223135d9541')
     const [URL, setURL] = useState('https://api.themoviedb.org/3//movie/top_rated?api_key=676abacf856fab82a2a03223135d9541')
     const baseURL = "https://www.themoviedb.org/t/p/w220_and_h330_face/"
@@ -130,32 +130,38 @@ const StateContext = ({ children }) => {
         getBannerMovies();
     }, [])
 
-    // const getMovieDetails = async () => {
-    //     try {
-    //         const response = await fetch(`https://api.themoviedb.org/3/movie/${params}?api_key=676abacf856fab82a2a03223135d9541`,{
-    //             method:'GET',
-    //             Header: new Headers({
-    //                 accept: 'application/json',
-    //                 Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
-    //             })
-    //         });
-    //         if(response.status === 200){
-    //             const result = await response.json()
-    //             setMovieDetails(result)
-    //             console.log(params)
-    //             console.log(movieDetails)
-    //             route.push('/details')
-    //         }
-    //     } catch (error) {
-    //         throw new Error("Poor network connection. Please try again")
-    //     }
-    // }
+    const getMovieDetails = async () => {
+        try {
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${params}?api_key=676abacf856fab82a2a03223135d9541`, {
+                method: 'GET',
+                Header: new Headers({
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
+                })
+            });
+            if (response.status === 200) {
+                const result = await response.json()
+                setMovieDetails(result)
+                console.log(movieDetails)
+            }
+        } catch (error) {
+            throw new Error("Poor network connection. Please try again")
+        }
+    }
 
-    // //Get movie details when params changes
-    // useEffect(() => {
-    //     getMovieDetails();
-    // }, [params])
-
+    //Get movie details when params changes
+    useEffect(() => {
+        getMovieDetails();
+    }, [params])
+    const getMovieCredit = async () => {
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${params}/credits?language=en-US`, {
+            method: 'GET',
+            header: new Headers({
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
+            })
+        })
+    }
     const value = {
         allData,
         bannerData,
@@ -166,8 +172,8 @@ const StateContext = ({ children }) => {
         language,
         params,
         setParams,
-        // getMovieDetails,
-        movieDetails, 
+        getMovieDetails,
+        movieDetails,
         setMovieDetails,
     }
 
