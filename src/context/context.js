@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import React, { createContext, useContext, useState, useEffect } from 'react'
 
 //Lol this is just stage 2 and I want to pass out. 
@@ -20,9 +21,13 @@ const StateContext = ({ children }) => {
     const [bannerData, setBannerData] = useState([])
     const [language, setLanguage] = useState([])
     const [genreData, setGenreData] = useState([])
+    const [params, setParams] = useState('')
+    const [movieDetails, setMovieDetails] = useState([])
     const [bannerURL, setBannerURL] = useState('https://api.themoviedb.org/3/movie/upcoming?api_key=676abacf856fab82a2a03223135d9541')
     const [URL, setURL] = useState('https://api.themoviedb.org/3//movie/top_rated?api_key=676abacf856fab82a2a03223135d9541')
     const baseURL = "https://www.themoviedb.org/t/p/w220_and_h330_face/"
+
+    const route = useRouter()
 
     //Fetch all the movies on home page
     const getAllMovies = async () => {
@@ -53,9 +58,9 @@ const StateContext = ({ children }) => {
         allData.forEach((item) => {
             setLanguage(prev => [...prev, item.original_language])
         });
-      }, [allData]);
+    }, [allData]);
 
-      //Get all genres
+    //Get all genres
     const getAllGenres = async () => {
         try {
             const apiCall = language?.map(async lang => {
@@ -70,7 +75,7 @@ const StateContext = ({ children }) => {
                 if (response.status === 200) {
                     const data = await response.json()
                     // Append genres to previous data
-                    setGenreData((prevGenreData) => [...prevGenreData, ...data.genres]); 
+                    setGenreData((prevGenreData) => [...prevGenreData, ...data.genres]);
                     return data
                 } else {
                     throw new Error('API call failed');
@@ -82,6 +87,10 @@ const StateContext = ({ children }) => {
             throw new Error('An error occurred while fetching data');
         }
     };
+    //Get all genres anytime language changes
+    useEffect(() => {
+        getAllGenres();
+    }, [language])
 
     //get each genre name
     const getGenrefromID = (id) => {
@@ -89,9 +98,9 @@ const StateContext = ({ children }) => {
             const genre = genreData.find((g) => g.id === genreId);
             console.log(genre)
             return genre ? genre.name : '';
-          });
+        });
     }
-    
+
     //Get movies for the banner carousel
     const getBannerMovies = async () => {
         try {
@@ -121,10 +130,31 @@ const StateContext = ({ children }) => {
         getBannerMovies();
     }, [])
 
-    //Get all genres anytime language changes
-    useEffect(() => {
-        getAllGenres();
-    }, [language])
+    // const getMovieDetails = async () => {
+    //     try {
+    //         const response = await fetch(`https://api.themoviedb.org/3/movie/${params}?api_key=676abacf856fab82a2a03223135d9541`,{
+    //             method:'GET',
+    //             Header: new Headers({
+    //                 accept: 'application/json',
+    //                 Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
+    //             })
+    //         });
+    //         if(response.status === 200){
+    //             const result = await response.json()
+    //             setMovieDetails(result)
+    //             console.log(params)
+    //             console.log(movieDetails)
+    //             route.push('/details')
+    //         }
+    //     } catch (error) {
+    //         throw new Error("Poor network connection. Please try again")
+    //     }
+    // }
+
+    // //Get movie details when params changes
+    // useEffect(() => {
+    //     getMovieDetails();
+    // }, [params])
 
     const value = {
         allData,
@@ -134,6 +164,11 @@ const StateContext = ({ children }) => {
         getGenrefromID,
         setLanguage,
         language,
+        params,
+        setParams,
+        // getMovieDetails,
+        movieDetails, 
+        setMovieDetails,
     }
 
     return <ChangeContext.Provider value={value}>
