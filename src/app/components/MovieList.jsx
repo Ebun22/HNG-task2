@@ -9,7 +9,6 @@ const MovieList = () => {
     const { allData, baseURL, getGenrefromID, genreData, genreNames, getMovieDetails, language, setParams, setLanguage } = useStateContext()
 
     const searchParam = useSearchParams();
-    
     return (
         <div className='w-full h-full p-24 grid grid-cols-4 gap-12'>
             {allData.map((item, index) => (

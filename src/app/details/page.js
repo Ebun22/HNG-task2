@@ -12,16 +12,24 @@ export default function Home({ searchParams }) {
     console.log(movieCredits)
     const { backdrop_path, imdb_id, original_language, genres, production_countries, overview, original_title, poster_path, release_date, runtime } = movieDetails
 
+    if (typeof movieCredits === 'undefined') {
+        return [];
+    }const getCrew = () => {
+        const directorNames = movieCredits.crew
+            .filter(item => item.known_for_department === "Directing")
+            .map(name => name.name);
+
+        const uniqueDirectorNames = [...new Set(directorNames)];
+        // console.log(uniqueDirectorNames);
+        uniqueDirectorNames.forEach(item => {
+            return item
+        })
+    }
+    const directors = getCrew();
+
     useEffect(() => {
         setParams(searchParams.id)
-        setDetailLang(original_language)
-        if (production_countries) {
-            const [country] = production_countries;
-            setDetailCountry(country.iso_3166_1);
-        }
     }, [])
-
-
 
     return (
         <div className=' w-full h-full flex flex-row'>
@@ -63,9 +71,29 @@ export default function Home({ searchParams }) {
                             {overview}
                         </p>
                         <div>
-                            <p>Director: </p>
-                            <p>Writers: </p>
-                            <p>Stars: </p>
+                            {directors ? (
+                                <p>
+                                    {directors.map((director, index) => (
+                                        <p key={index}>{director}</p>
+                                    ))}
+                                </p>
+                            ) : (
+                                <p>No directors found.</p>
+                            )}
+                            <p>Writers:
+                                {/* {
+                                    movieCredits.crew.filter(item => item.known_for_department == "Writing" & item.job == "Screenplay").map(item => (
+                                        <p>{item.name}</p>
+                                    ))
+                                } */}
+                            </p>
+                            <p className="flex flex-row">Stars:
+                                {/* {
+                                    movieCredits.cast?.slice(0, 3).map((item, index) => (
+                                        <p key={index}>{index < movieCredits.cast?.slice(0, 3).length - 1 ? item.name + ", " : item.name + " "}</p>
+                                    ))
+                                } */}
+                            </p>
                         </div>
                     </div>
                     <div></div>

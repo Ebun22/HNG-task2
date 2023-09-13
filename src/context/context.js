@@ -151,22 +151,19 @@ const StateContext = ({ children }) => {
             throw new Error("Poor network connection. Please try again")
         }
     }
-  //Get movie details and credits when params changes
-  useEffect(() => {
-    getMovieDetails();
-}, [params])
 
-  
+    //get the credits of each movie
     const getMovieCredit = async () => {
         try {
-            const response = await fetch(`https://api.themoviedb.org/3/movie/${params}/credits?language=${detailLang}-${detailCountry}`, {
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${params}/credits?api_key=676abacf856fab82a2a03223135d9541`,{
                 method: 'GET',
-                header: new Headers({
+                Header: new Headers({
                     accept: 'application/json',
+                    
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
                 })
-            })
-
+            });
+         
             if (response.status === 200) {
                 const result = await response.json();
                 console.log(result)
@@ -176,10 +173,28 @@ const StateContext = ({ children }) => {
             throw new Error("poor nextwork connection")
         }
     }
-    useEffect(() => {
+   
+      //Get movie details and credits when params changes
+      useEffect(() => {
+        getMovieDetails();
         getMovieCredit();
-    }, [detailLang])
-    
+    }, [params])
+
+    // const getCrew = () => {
+
+    //     console.log(movieCredits)
+    //     // if(movieCredits){
+    //     //     const crew = movieCredits.crew.filter(item => item.includes(item.known_for_department === "Writing"));
+    //     //     console.log(crew)
+    //     // }
+        
+    // }
+
+   if(movieCredits){
+            // const crew = movieCredits.crew.filter(item => item.includes(item.known_for_department === "Writing"));
+            console.log(movieCredits)
+        }
+
     const value = {
         allData,
         bannerData,
@@ -196,7 +211,8 @@ const StateContext = ({ children }) => {
         movieCredits,
         setDetailLang,
         setDetailCountry,
-        detailCountry
+        detailCountry,
+        // getCrew,
     }
 
     return <ChangeContext.Provider value={value}>
