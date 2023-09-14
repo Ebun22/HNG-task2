@@ -23,12 +23,14 @@ const StateContext = ({ children }) => {
     const [genreData, setGenreData] = useState([])
     const [movieDetails, setMovieDetails] = useState([])
     const [movieCredits, setMovieCredits] = useState([])
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const [carouselItem, setCarouselItem] = useState('')
     const [params, setParams] = useState('')
-    const [detailLang, setDetailLang] = useState('')
+    const [newBanner, setNewBanner] = useState([])
     const [detailCountry, setDetailCountry] = useState('')
     const [bannerURL, setBannerURL] = useState('https://api.themoviedb.org/3/movie/upcoming?api_key=676abacf856fab82a2a03223135d9541')
     const [URL, setURL] = useState('https://api.themoviedb.org/3//movie/top_rated?api_key=676abacf856fab82a2a03223135d9541')
-    const baseURL = "https://www.themoviedb.org/t/p/w220_and_h330_face/"
+    const baseURL = "https://www.themoviedb.org/t/p/original/"
 
     const route = useRouter()
 
@@ -99,7 +101,7 @@ const StateContext = ({ children }) => {
     const getGenrefromID = (id) => {
         return id.map((genreId) => {
             const genre = genreData.find((g) => g.id === genreId);
-            console.log(genre)
+            // console.log(genre)
             return genre ? genre.name : '';
         });
     }
@@ -180,7 +182,18 @@ const StateContext = ({ children }) => {
         getMovieCredit();
     }, [params])
 
-
+    //goto frunction for th carousel
+    const goTo = (index) => {
+        setCurrentIndex(index)
+    }
+    //go to previous slide
+    const prevSlide = () => {
+        setCurrentIndex(currentIndex <= 0 ? newBanner.length - 1 : currentIndex - 1);
+    }
+      //go to next slide
+    const nextSlide = () => {
+        setCurrentIndex(currentIndex === 4 ? 0 : currentIndex + 1)
+    }
     const value = {
         allData,
         bannerData,
@@ -195,10 +208,16 @@ const StateContext = ({ children }) => {
         movieDetails,
         setMovieDetails,
         movieCredits,
-        setDetailLang,
-        setDetailCountry,
+        newBanner, 
+        setNewBanner,
+        currentIndex, 
+        setCurrentIndex,
+        nextSlide,
+        prevSlide,
         detailCountry,
-        // getCrew,
+        carouselItem, 
+        setCarouselItem,
+        goTo,
     }
 
     return <ChangeContext.Provider value={value}>

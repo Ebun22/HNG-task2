@@ -1,27 +1,19 @@
 import { useStateContext } from '@/context/context';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export function Carousel() {
-    const { bannerData, baseURL } = useStateContext()
-    const [currentIndex, setCurrentIndex] = useState(0)
-    const [endStep, setEndStep] = useState(false)
-    const newBanner = bannerData.slice(0, 5)
-    const index = [1, 2, 3, 4, 5]
+    const { bannerData, baseURL, setCarouselItem, currentIndex, setCurrentIndex, newBanner, setNewBanner, nextSlide,
+        prevSlide, } = useStateContext()
 
-    const prevSlide = () => {
-        setCurrentIndex(currentIndex <= 0 ? newBanner.length - 1 : currentIndex - 1);
-    }
-    const nextSlide = () => {
-        setCurrentIndex(currentIndex === 4 ? 0 : currentIndex + 1)
-    }
-    const goTo = (index) => {
-        setCurrentIndex(index)
-    }
+        useEffect(() => {
+            setNewBanner(bannerData.slice(0, 5))
+        }, [bannerData])
+    
 
     return (
         <>
             {
-                newBanner.map((item, index) => (
+                newBanner?.map((item, index) => (
                     <div
                         key={index}
                         className={`relative h-screen w-full m-auto group ${index === currentIndex ? "" : "hidden"
@@ -33,19 +25,14 @@ export function Carousel() {
                             alt={item.title}
                             className='w-full h-full object-cover'
                         />
-                        <div onClick={prevSlide} className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-Black/20 text/white cursor-pointer'>
-                            <span className="prev" >&#10094;</span>
+                        <div onClick={prevSlide} className='h-full w-6 top-72 bottom-0 left-0 opacity-20 group-hover:block absolute -translate-x-0 translate-y-[-50%] z-30 text-2xl rounded-full p-2 bg-red-700 text/white cursor-pointer'>
+                            <span className="prev z-30" >&#10094;</span>
                         </div>
-                        <div onClick={nextSlide} className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-Black/20 text/white cursor-pointer'>
-                            <span className="next" >&#10095;</span>
+                        <div onClick={nextSlide} className='h-full w-8 top-72 bottom-0 right-0 opacity-20 group-hover:block absolute -translate-x-0 translate-y-[-50%] z-30 text-2xl rounded-full p-2 bg-Black/20 text/white cursor-pointer'>
+                            <span className="next z-30" >&#10095;</span>
                         </div>
                         <div>
-                            {/* {
-                           
-                            index.map((item, key) => {
-                                <p onClick={goTo(item-1)}>{item}</p>
-                            })
-                            } */}
+                            {/* {setCarouselItem(item)} */}
                         </div>
                     </div>
 

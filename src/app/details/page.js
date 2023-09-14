@@ -10,15 +10,15 @@ export default function Home({ searchParams }) {
 
     const { allData, baseURL, movieCredits, detailCountry, setDetailLang, setDetailCountry, getGenrefromID, genreData, setParams, genreNames, getMovieDetails, movieDetails, setLanguage } = useStateContext()
     console.log(movieCredits)
-    const { backdrop_path, imdb_id, original_language, genres, production_countries, overview, original_title, poster_path, release_date, runtime } = movieDetails
+    const { backdrop_path, imdb_id, vote_count, original_language, genres, vote_average, overview, original_title, poster_path, release_date, runtime } = movieDetails
 
     const getCrew = () => {
         if (!movieCredits) {
             return []; // Handle the case where movieCredits is not available
         }
 
-        const directorNames = movieCredits?.crew
-            .filter(item => item.known_for_department === "Directing")
+        const directorNames = movieCredits.crew
+            ?.filter(item => item.known_for_department === "Directing")
             .map(name => name.name);
 
         const uniqueDirectorNames = [...new Set(directorNames)];
@@ -75,7 +75,7 @@ export default function Home({ searchParams }) {
                             {directors ? (
                                 <p className="flex flex-row">
                                     Directors:
-                                    {directors.map((director, index) => (
+                                    {directors?.map((director, index) => (
                                         <p key={index}>{" " + director}</p>
                                     ))}
                                 </p>
@@ -84,22 +84,22 @@ export default function Home({ searchParams }) {
                             )}
                             <p className="flex flex-row">Writers:
                                 {movieCredits ? (
-                                    movieCredits.crew.filter(item => item.known_for_department == "Writing" & item.job == "Screenplay").map(item => (
+                                    movieCredits.crew?.filter(item => item.known_for_department == "Writing" & item.job == "Screenplay").map(item => (
                                         <p>{" " + item.name}</p>
                                     ))
                                 ) : (
                                     <p>No Writers</p>
-                                )     
+                                )
                                 }
                             </p>
                             <p className="flex flex-row">Stars:
                                 {movieCredits ? (
                                     movieCredits.cast?.slice(0, 3).map((item, index) => (
                                         <p key={index}>{index < movieCredits.cast?.slice(0, 3).length - 1 ? item.name + ", " : item.name + " "}</p>
-                                    )) 
+                                    ))
                                 ) : (
                                     <p>No stars</p>
-                                )        
+                                )
                                 }
                             </p>
                         </div>
@@ -109,24 +109,57 @@ export default function Home({ searchParams }) {
                         </div>
                     </div>
                     <div>
+                        <div clasName="w-full flex flex-row">
+                            <Image
+                                src="/images/Heart.png"
+                                alt="movie"
+                                width={25}
+                                height={25}
+                                className="mr-2 mb-4"
+                            />
+                            <Image
+                                src="/images/Share.png"
+                                alt="movie"
+                                width={25}
+                                height={25}
+                                className="mr-2 mb-4 bg-red-700"
+                            />
+                            <Image
+                                src="/images/Bookmark.png"
+                                alt="movie"
+                                width={25}
+                                height={25}
+                                className="mr-2 mb-4 bg-red-700"
+                            />
+                            <div clasName=" w-full flex flex-row">
+                                <Image
+                                    src="/images/Star"
+                                    alt="movie"
+                                    width={100}
+                                    height={200}
+                                />
+                                <p>{vote_average}</p>
+                                <p>{vote_count}</p>
+                            </div>
+                        </div>
                         <div>
                             <button className="p-2 px-4 bg-rose-700 rounded-lg">See Showtimes</button>
                             <button className="p-2 px-4 bg-rose-100 rounded-lg">More watch options</button>
                         </div>
                         <div>
-                            <Image 
+                            <Image
                                 src="/"
                                 alt="movie"
                                 width={100}
                                 height={200}
                             />
-                              <Image 
+                            <Image
                                 src="/"
                                 alt="movie"
                                 width={100}
                                 height={200}
                             />
-                              <Image 
+                            <Image
                                 src="/"
                                 alt="movie"
                                 width={100}
