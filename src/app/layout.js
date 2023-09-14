@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
       <StateContext>
-        <main className="flex w-full max-w-screen-xl min-h-screen flex-col justify-between overflow-x-hidden">{children}</main>
+        <main className="flex w-full max-w-screen-xl min-h-screen overflow-hidden">{children}</main>
       </StateContext>
       </body>
       

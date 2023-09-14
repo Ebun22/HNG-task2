@@ -21,17 +21,17 @@ const Banner = () => {
                         />
                         <p>MovieBox</p>
                     </div>
-                    <div className="flex flex-col  m-auto p-1 justify-center w-2/5 border-solid border border-white rounded-lg ">
+                    <div className="flex flex-col m-auto p-1 justify-center w-2/5 border-solid border border-white rounded-lg ">
                         <input type="text" placeholder="what do you want to search" className="bg-transparent" />
-                        <span className="absolute top-54 bottom-18 z-20 absolute right-56 w-3 h-3">
+                        <div className="relative top-0 bottom-0 z-20 right-0 w-full h-5">
                             <Image
                                 src="/images/Icon.png"
                                 alt='imdb logo'
                                 width={20}
                                 height={20}
-                                className="w-3 h-3 "
+                                className="w-3 h-3 absolute top-0 bottom-0 z-20 right-0"
                             />
-                        </span>
+                        </div>
                     </div>
                     <div className="text-white flex flex-row z-30 w-2.5 ">
                         <p>Sign in</p>
@@ -41,6 +41,7 @@ const Banner = () => {
                                 alt='imdb logo'
                                 width={25}
                                 height={25}
+                                className="w-3 h-3"
                             />
                         </div>
                     </div>

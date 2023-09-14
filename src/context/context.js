@@ -23,6 +23,7 @@ const StateContext = ({ children }) => {
     const [genreData, setGenreData] = useState([])
     const [movieDetails, setMovieDetails] = useState([])
     const [movieCredits, setMovieCredits] = useState([])
+    const [movieCountry, setMovieCountry] = useState([])
     const [currentIndex, setCurrentIndex] = useState(0)
     const [carouselItem, setCarouselItem] = useState('')
     const [params, setParams] = useState('')
@@ -129,11 +130,7 @@ const StateContext = ({ children }) => {
         }
     }
 
-    //call these at initial render
-    useEffect(() => {
-        getAllMovies();
-        getBannerMovies();
-    }, [])
+
 
     const getMovieDetails = async () => {
         try {
@@ -154,18 +151,59 @@ const StateContext = ({ children }) => {
         }
     }
 
-    //get the credits of each movie
-    const getMovieCredit = async () => {
+    const getCountries = async (param) => {
         try {
-            const response = await fetch(`https://api.themoviedb.org/3/movie/${params}/credits?api_key=676abacf856fab82a2a03223135d9541`,{
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${param}?api_key=676abacf856fab82a2a03223135d9541`, {
                 method: 'GET',
                 Header: new Headers({
                     accept: 'application/json',
-                    
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
                 })
             });
-         
+
+            if (response.status === 200) {
+                const result = await response.json()
+                console.log(result)
+                setMovieCountry(result)
+            }
+        } catch (error) {
+            throw new Error("Poor network connection. Please try again")
+        }
+    }
+
+    // const getCountryNames = (code) => {
+    //     if (movieCountry.production_countries) {
+    //         const [countries] = movieCountry.production_countries
+    //         console.log(countries)
+    //         // Define a function to get the ISO name for a given language code
+    //         const language = countries.find((item) => item.iso_3166_1 === code);
+    //         console.log(code)
+    //         console.log(language)
+    //         return language ? language.english_name + ", " : ''; // Return the ISO name or an empty string if not found
+    //     }
+
+
+    // }
+
+    //call these at initial render
+    useEffect(() => {
+        getAllMovies();
+        getBannerMovies();
+        getCountries()
+    }, [])
+
+    //get the credits of each movie
+    const getMovieCredit = async () => {
+        try {
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${params}/credits?api_key=676abacf856fab82a2a03223135d9541`, {
+                method: 'GET',
+                Header: new Headers({
+                    accept: 'application/json',
+
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
+                })
+            });
+
             if (response.status === 200) {
                 const result = await response.json();
                 console.log(result)
@@ -175,22 +213,22 @@ const StateContext = ({ children }) => {
             throw new Error("poor nextwork connection")
         }
     }
-   
-      //Get movie details and credits when params changes
-      useEffect(() => {
+
+    //Get movie details and credits when params changes
+    useEffect(() => {
         getMovieDetails();
         getMovieCredit();
     }, [params])
 
-    //goto frunction for th carousel
+    //goto function for the carousel
     const goTo = (index) => {
-        setCurrentIndex(index)
+        setCurrentIndex(index-1)
     }
     //go to previous slide
     const prevSlide = () => {
         setCurrentIndex(currentIndex <= 0 ? newBanner.length - 1 : currentIndex - 1);
     }
-      //go to next slide
+    //go to next slide
     const nextSlide = () => {
         setCurrentIndex(currentIndex === 4 ? 0 : currentIndex + 1)
     }
@@ -208,15 +246,18 @@ const StateContext = ({ children }) => {
         movieDetails,
         setMovieDetails,
         movieCredits,
-        newBanner, 
+        newBanner,
         setNewBanner,
-        currentIndex, 
+        movieCountry,
+        setMovieCountry,
+        currentIndex,
         setCurrentIndex,
         nextSlide,
         prevSlide,
         detailCountry,
-        carouselItem, 
+        carouselItem,
         setCarouselItem,
+        getCountries,
         goTo,
     }
 
