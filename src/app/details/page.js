@@ -54,13 +54,11 @@ export default function Home({ searchParams }) {
                     <div className="flex flex-col w-full">
                         <div className="flex flex-row w-full py-4">
                             <div className="flex flex-row w-3/4 font-medium text-base mt-2 ">
-                                <p className='alighn-middle'>{original_title}</p>
+                                <p className='alighn-middle' data-testid='movie-title'>{original_title}</p>
                                 <span className="block bg-black rounded-full w-2.5 h-2 "></span>
-                                <p className='alighn-middle'>{release_date}</p>
-                                <span></span>
-                                <p className='alighn-middle'>{release_date}</p>
+                                <p className='alighn-middle' data-testid='movie-release-date'>{release_date}</p>
                                 <span className='alighn-middle'></span>
-                                <p className='alighn-middle'>{runtime}</p>
+                                <p className='alighn-middle' data-testid='movie-runtime'>{runtime}</p>
                                 <span></span>
                             </div>
                             <div className="flex flex-row w-1/4 mt-2">
@@ -75,7 +73,7 @@ export default function Home({ searchParams }) {
                                 )}
                             </div>
                         </div>
-                        <p className="font-light">
+                        <p className="font-light" data-testid='movie-overview'>
                             {overview}
                         </p>
                         <div className="pt-6">
