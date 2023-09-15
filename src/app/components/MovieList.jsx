@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useStateContext } from '@/context/context';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import Image from 'next/image';
 import Link from 'next/link';
 
 
 const MovieList = () => {
-    const { allData, baseURL, getGenrefromID,SearchParam, genreData, genreNames, getCountries, getMovieDetails, language, setParams, setLanguage } = useStateContext()
+    const { allData, baseURL, getGenrefromID, favourite, setFavourite, genreNames, getCountries, getMovieDetails, language, setParams, setLanguage } = useStateContext()
+
+    const toggleFavourite = (event, index) => {
+        event.preventDefault();
+        const updatedFavourites = [...favourite];
+        updatedFavourites[index] = !updatedFavourites[index];
+        setFavourite(updatedFavourites);
+    }
 
     return (
         <>
@@ -36,10 +44,10 @@ const MovieList = () => {
                         onClick={() => getMovieDetails()}>
                         <div
                             key={index}
-                            className="w-full h-full pb-"
+                            className="relative w-full h-full pb-"
                             data-testid="movie-card"
                         >
-                            <div className='w-full' >
+                            <div className='w-full relative' >
                                 <img
                                     width={250}
                                     height={370}
@@ -48,6 +56,15 @@ const MovieList = () => {
                                     className='w-full h-full object-fill'
                                     data-testid="movie-poster"
                                 />
+
+                                <div className="absolute top-0 right-0 z-10">
+                                    <div onClick={(event) => toggleFavourite(event, index)} className="relative z-20 bg-white w-8 h-8 p-2 rounded-full">
+                                        {favourite[index] ? <AiFillHeart className="text-rose-700" /> : <AiOutlineHeart />}
+                                    </div>
+
+                                </div>
+
+
                             </div>
 
                             <div className='text-left w-full pt-1 h-32'>

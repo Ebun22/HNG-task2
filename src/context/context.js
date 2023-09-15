@@ -27,6 +27,7 @@ const StateContext = ({ children }) => {
     const [movieCountry, setMovieCountry] = useState([])
     const [currentIndex, setCurrentIndex] = useState(0)
     const [search, setSearch] = useState(false);
+    const [favourite, setFavourite] = useState(Array(allData.length).fill(false));
     const [carouselItem, setCarouselItem] = useState('')
     const [searchParam, setSearchParam] = useState('')
     const [params, setParams] = useState('')
@@ -286,6 +287,8 @@ const StateContext = ({ children }) => {
         handleBackToHome,
         searchData,
         setSearchData,
+        favourite, 
+        setFavourite,
         searchParam,
         goTo,
     }

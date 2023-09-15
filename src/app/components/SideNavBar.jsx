@@ -8,17 +8,17 @@ const SideNavBar = () => {
 
     return (
         <div className="h-full w-full border-solid border border-slate-700 rounded-r-lg ">
-            <div className="flex flex-row w-full">
+            <div className="flex flex-row w-full pl-8 pt-6">
                 <Image
                     src="/images/tv.png"
                     width={50}
                     height={50}
                     className="mr-4"
                 />
-                <p className="bold">MovieBox</p>
+                <p className="bold mt-4 font-bold">MovieBox</p>
             </div>
             <div className="mt-16 justify-center text-sm font-medium text-slate-700">
-                <p className='flex flex-row p-4'>
+                <p className='flex flex-row pl-8 p-4 pt-2'>
                     <Image
                         src="/images/Home.png"
                         alt="home"
@@ -31,7 +31,7 @@ const SideNavBar = () => {
                     </Link>
 
                 </p>
-                <p className='flex flex-row align-middle p-4 bg-pink-200 text-rose-700 border-solid border-r-2 border-rose-700'>
+                <p className='flex flex-row align-middle pl-8 p-4 bg-pink-200 text-rose-700 border-solid border-r-2 border-rose-700'>
                     <Image
                         src="/images/Movie Projector.png"
                         alt="projector"
@@ -39,9 +39,9 @@ const SideNavBar = () => {
                         height={20}
                         className="mr-2"
                     />
-                    Movies
+                   <p > Movies</p>
                 </p>
-                <p className='flex flex-row align-middle p-4'>
+                <p className='flex flex-row align-middle pl-8 p-4'>
                     <Image
                         src="/images/TV Show.png"
                         alt="tvShow"
@@ -51,7 +51,7 @@ const SideNavBar = () => {
                     />
                     TV Series
                 </p>
-                <p className='flex flex-row p-4'>
+                <p className='flex flex-row pl-8 p-4'>
                     <Image
                         src="/images/Calendar.png"
                         alt="calender"

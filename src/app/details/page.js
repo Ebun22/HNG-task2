@@ -7,7 +7,7 @@ import { SideNavBar } from '../components';
 
 
 export default function Home({ searchParams }) {
-
+    const [date, setDate] = useState('')
     const { allData, baseURL, movieCredits, detailCountry, setDetailLang, setDetailCountry, getGenrefromID, genreData, setParams, genreNames, getMovieDetails, movieDetails, setLanguage } = useStateContext()
     console.log(movieCredits)
     const { backdrop_path, imdb_id, vote_count, original_language, genres, vote_average, overview, original_title, poster_path, release_date, runtime } = movieDetails
@@ -29,9 +29,27 @@ export default function Home({ searchParams }) {
     // Call the getCrew function to obtain the director names
     const directors = getCrew();
 
+    //to convert Date to UTC format
+    const formatDataInUTC = () => {
+        const options = {
+            weekday: 'short',
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            timeZone: 'UTC',
+        }
+
+        const dateObj = new Date(release_date);
+        const formattedDate = dateObj.toLocaleDateString('en-US', options);
+        setDate(formattedDate)
+    }
+
     useEffect(() => {
         setParams(searchParams.id)
+        formatDataInUTC()
     }, [])
+
+
 
     return (
         <div className=' w-full h-full flex flex-row'>
@@ -46,19 +64,31 @@ export default function Home({ searchParams }) {
                         height={100}
                         src={`${baseURL}${poster_path}`}
                         alt={original_title}
-                        className='w-full h-full object-fill rounded-lg'
-                        data-testid="movie-poster"
+                        className='w-full h-full object-fit rounded-lg'
                     />
+                    <div className='absolute z-20 top-0 bottom-0 left-0 right-0  h-56 mt-14'>
+                        <div className="flex flex-col justify-center">
+                            <img
+                                width={100}
+                                height={100}
+                                src='/images/play-button.png'
+                                alt="play"
+                                className='relative z-20 m-auto mt-18'
+                            />
+                             <p className="flex flex-col justify-center m-auto text-white">Watch Trailer</p>
+                        </div>
+
+                    </div>
                 </div>
                 <div className="flex flex-row w-full">
                     <div className="flex flex-col w-full">
                         <div className="flex flex-row w-full py-4">
-                            <div className="flex flex-row w-3/4 font-medium text-base mt-2 ">
-                                <p className='alighn-middle' data-testid='movie-title'>{original_title}</p>
-                                <span className="block bg-black rounded-full w-2.5 h-2 "></span>
-                                <p className='alighn-middle' data-testid='movie-release-date'>{release_date}</p>
-                                <span className='alighn-middle'></span>
-                                <p className='alighn-middle' data-testid='movie-runtime'>{runtime}</p>
+                            <div className="flex flex-row w-full font-medium text-base space-evenly mt-2">
+                                <p className='grow w-full' data-testid='movie-title'>{original_title}</p>
+                                <span className="block bg-black rounded-full w- h-1 p-1 mt-6 mr-3"></span>
+                                <p className='grow w-full mt-4' data-testid='movie-release-date'>{date}</p>
+                                <span className="block bg-black rounded-full w- h-1 p-1 mt-6 mr-3"></span>
+                                <p className="flex flex-row w-full py-4 w-12"><p className='alighn-middle' data-testid='movie-runtime'>{runtime}</p><span>mins</span></p>
                                 <span></span>
                             </div>
                             <div className="flex flex-row w-1/4 mt-2">
@@ -153,7 +183,7 @@ export default function Home({ searchParams }) {
                                     height={25}
                                     className="mb-4 w-6 h-6"
                                 />
-                                <p  className="text-slate-400 px-2 h-6 border-r-2 border-black">{vote_average}</p>
+                                <p className="text-slate-400 px-2 h-6 border-r-2 border-black">{vote_average}</p>
                                 <p className="text-base pl-2">{vote_count}</p>
                             </div>
                         </div>
