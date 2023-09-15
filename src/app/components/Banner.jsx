@@ -5,25 +5,26 @@ import Image from "next/image";
 
 
 const Banner = () => {
-    const { bannerData, baseURL, carouselItem, newBanner, currentIndex, goTo } = useStateContext()
+    const { bannerData, baseURL, carouselItem, newBanner, currentIndex, goTo,handleSearch, handleSearchInput } = useStateContext()
     const index = [1, 2, 3, 4, 5]
     return (
         <div className="h-screen">
             <div className="w-full h-full bg-black/50 text-white absolute top-0 bottom-0 left-0 right-0 pt-6 px-24 z-10">
                 {/* navbar */}
-                <div className="flex flex-row">
+                <div className="flex flex-row w-full">
                     <div className="flex flex-row">
                         <Image
                             src="/images/tv.png"
                             alt='imdb logo'
                             width={25}
                             height={25}
+                            className="mr-6 w-12 h-12"
                         />
-                        <p>MovieBox</p>
+                        <p className="font-bold mt-4">MovieBox</p>
                     </div>
-                    <div className="flex flex-col m-auto p-1 justify-center w-2/5 border-solid border border-white rounded-lg ">
-                        <input type="text" placeholder="what do you want to search" className="bg-transparent" />
-                        <div className="relative top-0 bottom-0 z-20 right-0 w-full h-5">
+                    <div className="flex flex-row m-auto p-1 justify-center w-2/5 border-solid border border-white rounded-lg ">
+                        <input type="text" placeholder="what do you want to search" onChange={(event) => handleSearchInput(event)} className="bg-transparent outline-none pl-1.5 w-1/2" />
+                        <div className="relative top-2 bottom-0 z-20 right-0 w-1/2 h-2">
                             <Image
                                 src="/images/Icon.png"
                                 alt='imdb logo'
@@ -33,17 +34,17 @@ const Banner = () => {
                             />
                         </div>
                     </div>
-                    <div className="text-white flex flex-row z-30 w-2.5 ">
-                        <p>Sign in</p>
-                        <div className="rounded-full w-5 h-5 text-center bg-rose-700 ">
+                    <div className="text-white flex flex-row z-30 w-1/5 justify-end">
+                        <p className="mr-5">Sign in</p>
+                        <button className="rounded-full px-2 w-8 h-8 text-center bg-rose-700" onClick={()=> handleSearch()}>
                             <Image
-                                src="/images/Menu alt 4.png"
+                                src="/images/menu.png"
                                 alt='imdb logo'
                                 width={25}
                                 height={25}
-                                className="w-3 h-3"
+                                className="w-6 h-6"
                             />
-                        </div>
+                        </button>
                     </div>
                 </div>
 

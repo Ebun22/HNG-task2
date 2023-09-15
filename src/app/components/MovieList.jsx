@@ -6,9 +6,8 @@ import Link from 'next/link';
 
 
 const MovieList = () => {
-    const { allData, baseURL, getGenrefromID, genreData, genreNames, getCountries, getMovieDetails, language, setParams, setLanguage } = useStateContext()
+    const { allData, baseURL, getGenrefromID,SearchParam, genreData, genreNames, getCountries, getMovieDetails, language, setParams, setLanguage } = useStateContext()
 
-    console.log(allData)
     return (
         <>
             <div className="flex flex-row p-24 pt-28 pb-0 w-full">
@@ -72,7 +71,6 @@ const MovieList = () => {
                                 </div>
                                 <p className='text-sm text-slate-500'>
                                     {
-
                                         getGenrefromID(item.genre_ids).join(', ')
                                     }
                                 </p>

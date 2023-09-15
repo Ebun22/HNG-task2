@@ -19,13 +19,16 @@ export const useStateContext = () => {
 const StateContext = ({ children }) => {
     const [allData, setAllData] = useState([])
     const [bannerData, setBannerData] = useState([])
+    const [searchData, setSearchData] = useState([])
     const [language, setLanguage] = useState([])
     const [genreData, setGenreData] = useState([])
     const [movieDetails, setMovieDetails] = useState([])
     const [movieCredits, setMovieCredits] = useState([])
     const [movieCountry, setMovieCountry] = useState([])
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [search, setSearch] = useState(false);
     const [carouselItem, setCarouselItem] = useState('')
+    const [searchParam, setSearchParam] = useState('')
     const [params, setParams] = useState('')
     const [newBanner, setNewBanner] = useState([])
     const [detailCountry, setDetailCountry] = useState('')
@@ -130,8 +133,6 @@ const StateContext = ({ children }) => {
         }
     }
 
-
-
     const getMovieDetails = async () => {
         try {
             const response = await fetch(`https://api.themoviedb.org/3/movie/${params}?api_key=676abacf856fab82a2a03223135d9541`, {
@@ -171,20 +172,6 @@ const StateContext = ({ children }) => {
         }
     }
 
-    // const getCountryNames = (code) => {
-    //     if (movieCountry.production_countries) {
-    //         const [countries] = movieCountry.production_countries
-    //         console.log(countries)
-    //         // Define a function to get the ISO name for a given language code
-    //         const language = countries.find((item) => item.iso_3166_1 === code);
-    //         console.log(code)
-    //         console.log(language)
-    //         return language ? language.english_name + ", " : ''; // Return the ISO name or an empty string if not found
-    //     }
-
-
-    // }
-
     //call these at initial render
     useEffect(() => {
         getAllMovies();
@@ -220,9 +207,35 @@ const StateContext = ({ children }) => {
         getMovieCredit();
     }, [params])
 
+    const handleSearchInput = async(event) => {
+        setSearchParam(event.target.value)
+    }
+
+    const handleSearch = async() => {
+        setSearch(true)
+        console.log(search)
+        try {
+            const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${searchParam}&include_adult=false&language=en-US&page=1?api_key=676abacf856fab82a2a03223135d9541`, {
+                method: 'GET',
+                Header: new Headers({
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
+                })
+            });
+
+            if (response.status === 200) {
+                const result = await response.json();
+                console.log(result)
+                setSearchData(result)
+            }
+        } catch (error) {
+            throw new Error("poor nextwork connection")
+        }
+    }
+
     //goto function for the carousel
     const goTo = (index) => {
-        setCurrentIndex(index-1)
+        setCurrentIndex(index - 1)
     }
     //go to previous slide
     const prevSlide = () => {
@@ -232,6 +245,7 @@ const StateContext = ({ children }) => {
     const nextSlide = () => {
         setCurrentIndex(currentIndex === 4 ? 0 : currentIndex + 1)
     }
+
     const value = {
         allData,
         bannerData,
@@ -258,6 +272,12 @@ const StateContext = ({ children }) => {
         carouselItem,
         setCarouselItem,
         getCountries,
+        search,
+        handleSearchInput,
+        handleSearch,
+        searchData, 
+        setSearchData,
+        searchParam,
         goTo,
     }
 
