@@ -214,8 +214,9 @@ const StateContext = ({ children }) => {
     const handleSearch = async() => {
         setSearch(true)
         console.log(search)
+        console.log(searchParam)
         try {
-            const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${searchParam}&include_adult=false&language=en-US&page=1?api_key=676abacf856fab82a2a03223135d9541`, {
+            const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${searchParam}&include_adult=false&language=en-US&page=1&api_key=676abacf856fab82a2a03223135d9541`, {
                 method: 'GET',
                 Header: new Headers({
                     accept: 'application/json',
@@ -226,11 +227,13 @@ const StateContext = ({ children }) => {
             if (response.status === 200) {
                 const result = await response.json();
                 console.log(result)
-                setSearchData(result)
+                setSearchData(result.results)
+                console.log(searchParam)
             }
         } catch (error) {
             throw new Error("poor nextwork connection")
         }
+        console.log(searchData)
     }
 
     //goto function for the carousel

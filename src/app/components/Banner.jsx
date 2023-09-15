@@ -24,7 +24,7 @@ const Banner = () => {
                     </div>
                     <div className="flex flex-row m-auto p-1 justify-center w-2/5 border-solid border border-white rounded-lg ">
                         <input type="text" placeholder="what do you want to search" onChange={(event) => handleSearchInput(event)} className="bg-transparent outline-none pl-1.5 w-1/2" />
-                        <div className="relative top-2 bottom-0 z-20 right-0 w-1/2 h-2">
+                        <div className="relative top-2 bottom-0 z-20 right-0 w-1/2 h-2" onClick={handleSearch}>
                             <Image
                                 src="/images/Icon.png"
                                 alt='imdb logo'
@@ -36,7 +36,7 @@ const Banner = () => {
                     </div>
                     <div className="text-white flex flex-row z-30 w-1/5 justify-end">
                         <p className="mr-5">Sign in</p>
-                        <button className="rounded-full px-2 w-8 h-8 text-center bg-rose-700" onClick={()=> handleSearch()}>
+                        <div className="rounded-full px-2 w-8 h-8 text-center bg-rose-700 ">
                             <Image
                                 src="/images/menu.png"
                                 alt='imdb logo'
@@ -44,7 +44,7 @@ const Banner = () => {
                                 height={25}
                                 className="w-6 h-6"
                             />
-                        </button>
+                        </div>
                     </div>
                 </div>
 

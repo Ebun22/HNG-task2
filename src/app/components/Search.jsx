@@ -1,8 +1,10 @@
 import { useStateContext } from '@/context/context';
+import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const Search= () => {
-    const { bannerData, baseURL, searchData, } = useStateContext()
+    const { bannerData, baseURL, searchData,getGenrefromID, SearchParam, genreData, genreNames, getCountries, getMovieDetails, language, setParams, setLanguage } = useStateContext()
 
     return (
         <>
@@ -22,7 +24,7 @@ const Search= () => {
                         data-testid="movie-card"
                     >
                         <div className='w-full' >
-                            <img
+                            <Image
                                 width={250}
                                 height={370}
                                 src={`${baseURL}${item.poster_path}`}

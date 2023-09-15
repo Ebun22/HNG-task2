@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        domains: ["https:/"], // Replace with your actual image base URL domain
-      },
+  images: {
+    domains: ['www.themoviedb.org'], // Add any other domains you need here
+  },
 }
 
 module.exports = nextConfig
