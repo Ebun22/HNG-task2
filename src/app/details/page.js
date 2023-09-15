@@ -35,11 +35,11 @@ export default function Home({ searchParams }) {
 
     return (
         <div className=' w-full h-full flex flex-row'>
-            <div className="w-1/4 min-h-screen top-0 left-0 right-0">
+            <div className="w-1/5 min-h-screen top-0 left-0 right-0">
                 <SideNavBar />
             </div>
 
-            <div className="w-3/4 px-12 my-8 relative right-0">
+            <div className="w-4/5 px-12 my-8 relative right-0">
                 <div className='w-full h-64' >
                     <img
                         width={150}
@@ -53,21 +53,21 @@ export default function Home({ searchParams }) {
                 <div className="flex flex-row w-full">
                     <div className="flex flex-col w-full">
                         <div className="flex flex-row w-full py-4">
-                            <div className="flex flex-row w-full font-medium text-base  ">
-                                <p>{original_title}</p>
+                            <div className="flex flex-row w-3/4 font-medium text-base mt-2 ">
+                                <p className='alighn-middle'>{original_title}</p>
                                 <span className="block bg-black rounded-full w-2.5 h-2 "></span>
-                                <p>{release_date}</p>
+                                <p className='alighn-middle'>{release_date}</p>
                                 <span></span>
-                                <p>{release_date}</p>
-                                <span></span>
-                                <p>{runtime}</p>
+                                <p className='alighn-middle'>{release_date}</p>
+                                <span className='alighn-middle'></span>
+                                <p className='alighn-middle'>{runtime}</p>
                                 <span></span>
                             </div>
-                            <div className="flex flex-row ml-4">
+                            <div className="flex flex-row w-1/4 mt-2">
                                 {genres?.map((item, index) => (
                                     <p
                                         key={index}
-                                        className="text-rose-700 p-1 border-solid border border-rose-700 rounded-full px-4"
+                                        className="text-rose-700 p-1 border-solid border border-rose-700 rounded-full px-4 h-6 py-0 mr-4 "
                                     >
                                         {item.name}
                                     </p>
@@ -75,85 +75,95 @@ export default function Home({ searchParams }) {
                                 )}
                             </div>
                         </div>
-                        <p>
+                        <p className="font-light">
                             {overview}
                         </p>
-                        <div>
+                        <div className="pt-6">
                             {directors ? (
-                                <p className="flex flex-row">
+                                <p className="flex flex-row pb-4 font-light">
                                     Directors:
                                     {directors?.map((director, index) => (
-                                        <p key={index}>{" " + director}</p>
+                                        <p key={index} className="text-rose-700 font-normal">{" " + director}</p>
                                     ))}
                                 </p>
                             ) : (
                                 <p>No directors found.</p>
                             )}
-                            <p className="flex flex-row">Writers:
+                            <p className="flex flex-row pb-4  font-light">Writers:
                                 {movieCredits ? (
                                     movieCredits.crew?.filter(item => item.known_for_department == "Writing" & item.job == "Screenplay").map(item => (
-                                        <p>{" " + item.name}</p>
+                                        <p className="text-rose-700 font-normal">{" " + item.name}</p>
                                     ))
                                 ) : (
                                     <p>No Writers</p>
                                 )
                                 }
                             </p>
-                            <p className="flex flex-row">Stars:
+                            <p className="flex flex-row pb-4 font-light">Stars:
                                 {movieCredits ? (
                                     movieCredits.cast?.slice(0, 3).map((item, index) => (
-                                        <p key={index}>{index < movieCredits.cast?.slice(0, 3).length - 1 ? item.name + ", " : item.name + " "}</p>
+                                        <p key={index} className="text-rose-700 font-normal">{index < movieCredits.cast?.slice(0, 3).length - 1 ? item.name + ", " : item.name + " "}</p>
                                     ))
                                 ) : (
-                                    <p>No stars</p>
+                                    <p className="text-rose-700">No stars</p>
                                 )
                                 }
                             </p>
                         </div>
-                        <div className="flex flex-row">
-                            <p className="p-2 bg-rose-700 rounded-lg"> Top rated movie #65</p>
-                            <p clasName="flex flex-row"><p>Awards 9 nominations</p><p>V</p></p>
+                        <div className="flex flex-row pt-6 w-full">
+                            <p className="p-2 bg-rose-700 rounded-lg text-center text-white w-1/3"> Top rated movie #65</p>
+                            <p className="flex flex-row w-1/3 pt-4 pl-2 border-y border-r border-slate-300 rounded-r-lg">
+                                <p>Awards 9 nominations</p>
+                                <Image
+                                    src="/images/arrow_down.png"
+                                    alt="movie"
+                                    width={25}
+                                    height={25}
+                                    className="mr-2 mb-4"
+                                />
+                            </p>
                         </div>
                     </div>
-                    <div>
-                        <div clasName="w-full flex flex-row">
+                    <div className='w-1/3 ml-2 mt-8'>
+                        <div className="w-full flex flex-row">
                             <Image
                                 src="/images/Heart.png"
                                 alt="movie"
                                 width={25}
                                 height={25}
-                                className="mr-2 mb-4"
+                                className=" mr-1 mb-3 w-6 h-6"
                             />
                             <Image
                                 src="/images/Share.png"
                                 alt="movie"
                                 width={25}
                                 height={25}
-                                className="mr-2 mb-4 bg-red-700"
+                                className="mr-2 mb-4 w-6 h-6"
                             />
                             <Image
                                 src="/images/Bookmark.png"
                                 alt="movie"
                                 width={25}
                                 height={25}
-                                className="mr-2 mb-4 bg-red-700"
+                                className="mr-2 mb-4 w-6 h-6"
                             />
-                            <div clasName=" w-full flex flex-row">
+                            <div className="w-full flex flex-row">
                                 <Image
-                                    src="/images/Star"
+                                    src="/images/Star.png"
                                     alt="movie"
-                                    width={100}
-                                    height={200}
+                                    width={25}
+                                    height={25}
+                                    className="mb-4 w-6 h-6"
                                 />
-                                <p>{vote_average}</p>
-                                <p>{vote_count}</p>
+                                <p  className="text-slate-400 px-2 h-6 border-r-2 border-black">{vote_average}</p>
+                                <p className="text-base pl-2">{vote_count}</p>
                             </div>
                         </div>
-                        <div>
-                            <button className="p-2 px-4 bg-rose-700 rounded-lg">See Showtimes</button>
-                            <button className="p-2 px-4 bg-rose-100 rounded-lg">More watch options</button>
+                        <div className="mt-3">
+                            <button className="p-2 px-4 bg-rose-700 text-white text-center rounded-lg w-full mb-2">See Showtimes</button>
+                            <button className="p-2 px-4 bg-rose-100 rounded-lg w-full text-center border border-rose-700">More watch options</button>
                         </div>
-                        <div>
+                        <div >
                             <Image
                                 src="/"
                                 alt="movie"
