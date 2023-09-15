@@ -1,9 +1,7 @@
 import { useRouter } from 'next/navigation';
 import React, { createContext, useContext, useState, useEffect } from 'react'
-
-//Lol this is just stage 2 and I want to pass out. 
-//what is wrong with this API. this is not how stage 2 should be o
-//arghhh fuck. why aren't these endpoints straight forward. this can't be  real life case, I'd legit throw hands with the backend dev
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ChangeContext = createContext(null)
 
@@ -16,6 +14,7 @@ export const useStateContext = () => {
     return store;
 }
 
+//context hook
 const StateContext = ({ children }) => {
     const [allData, setAllData] = useState([])
     const [bannerData, setBannerData] = useState([])
@@ -50,15 +49,17 @@ const StateContext = ({ children }) => {
                 })
             })
 
-            if (response.status === 200) {
+            if (response.success) {
                 const data = await response.json()
                 setAllData(data.results)
                 console.log(allData)
             } else {
                 console.log("opps! there has been an error")
+                toast.error("data server seems to be having an issue")
             }
 
         } catch (error) {
+            toast.error("Poor network connection. Please try again")
             throw new Error("Poor network connection. Please try again")
         }
     }
@@ -82,31 +83,28 @@ const StateContext = ({ children }) => {
                     },
                 });
 
-                if (response.status === 200) {
+                if (response.success) {
                     const data = await response.json()
                     // Append genres to previous data
                     setGenreData((prevGenreData) => [...prevGenreData, ...data.genres]);
                     return data
                 } else {
+                    toast.error("data server seems to be having an issue")
                     throw new Error('API call failed');
                 }
             })
             const result = await Promise.all(apiCall)
         } catch (error) {
             console.error(error);
+            toast.error("Poor network connection. Please try again")
             throw new Error('An error occurred while fetching data');
         }
     };
-    //Get all genres anytime language changes
-    useEffect(() => {
-        getAllGenres();
-    }, [language])
 
     //get each genre name
     const getGenrefromID = (id) => {
         return id.map((genreId) => {
             const genre = genreData.find((g) => g.id === genreId);
-            // console.log(genre)
             return genre ? genre.name : '';
         });
     }
@@ -122,18 +120,20 @@ const StateContext = ({ children }) => {
                 })
             })
 
-            if (response.status === 200) {
+            if (response.success) {
                 const data = await response.json()
                 setBannerData(data.results)
             } else {
-                console.log("opps! there has been an error")
+                toast.error("data server seems to be having an issue")
             }
 
         } catch (error) {
+            toast.error("Poor network connection. Please try again")
             throw new Error("Poor network connection. Please try again")
         }
     }
 
+    //fetch deatils of each movie
     const getMovieDetails = async () => {
         try {
             const response = await fetch(`https://api.themoviedb.org/3/movie/${params}?api_key=676abacf856fab82a2a03223135d9541`, {
@@ -143,16 +143,19 @@ const StateContext = ({ children }) => {
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
                 })
             });
-            if (response.status === 200) {
+            if (response.success) {
                 const result = await response.json()
                 setMovieDetails(result)
-                console.log(movieDetails)
+            } else {
+                toast.error("data server seems to be having an issue")
             }
         } catch (error) {
+            toast.error("Poor network connection. Please try again")
             throw new Error("Poor network connection. Please try again")
         }
     }
 
+    //fetch all countries
     const getCountries = async (param) => {
         try {
             const response = await fetch(`https://api.themoviedb.org/3/movie/${param}?api_key=676abacf856fab82a2a03223135d9541`, {
@@ -163,22 +166,19 @@ const StateContext = ({ children }) => {
                 })
             });
 
-            if (response.status === 200) {
+            if (response.success) {
                 const result = await response.json()
-                console.log(result)
                 setMovieCountry(result)
+            } else {
+                toast.error("data server seems to be having an issue")
             }
         } catch (error) {
+            toast.error("Poor network connection. Please try again")
             throw new Error("Poor network connection. Please try again")
         }
     }
 
-    //call these at initial render
-    useEffect(() => {
-        getAllMovies();
-        getBannerMovies();
-        getCountries()
-    }, [])
+
 
     //get the credits of each movie
     const getMovieCredit = async () => {
@@ -192,30 +192,25 @@ const StateContext = ({ children }) => {
                 })
             });
 
-            if (response.status === 200) {
+            if (response.success) {
                 const result = await response.json();
-                console.log(result)
                 setMovieCredits(result)
+            } else {
+                toast.error("data server seems to be having an issue")
             }
         } catch (error) {
+            toast.error("Poor network connection. Please try again")
             throw new Error("poor nextwork connection")
         }
     }
 
-    //Get movie details and credits when params changes
-    useEffect(() => {
-        getMovieDetails();
-        getMovieCredit();
-    }, [params])
-
+    //updates search state
     const handleSearchInput = async (event) => {
         setSearchParam(event.target.value)
     }
 
     const handleSearch = async () => {
         setSearch(true)
-        console.log(search)
-        console.log(searchParam)
         try {
             const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${searchParam}&include_adult=false&language=en-US&page=1&api_key=676abacf856fab82a2a03223135d9541`, {
                 method: 'GET',
@@ -225,21 +220,23 @@ const StateContext = ({ children }) => {
                 })
             });
 
-            if (response.status === 200) {
+            if (response.success) {
                 const result = await response.json();
                 console.log(result)
                 setSearchData(result.results)
                 console.log(searchParam)
+            } else {
+                toast.error("data server seems to be having an issue")
             }
         } catch (error) {
+            toast.error("poor nextwork connections")
             throw new Error("poor nextwork connection")
         }
-        console.log(searchData)
     }
 
+    //route back to home page form search
     const handleBackToHome = () => {
         setSearch(false)
-        console.log(search)
     }
 
     //goto function for the carousel
@@ -255,6 +252,24 @@ const StateContext = ({ children }) => {
         setCurrentIndex(currentIndex === 4 ? 0 : currentIndex + 1)
     }
 
+    //call these at initial render
+    useEffect(() => {
+        getAllMovies();
+        getBannerMovies();
+        getCountries()
+    }, [])
+
+    //Get movie details and credits when params changes
+    useEffect(() => {
+        getMovieDetails();
+        getMovieCredit();
+    }, [params])
+
+    //Get all genres anytime language changes
+    useEffect(() => {
+        getAllGenres();
+    }, [language])
+    
     const value = {
         allData,
         bannerData,
@@ -287,7 +302,7 @@ const StateContext = ({ children }) => {
         handleBackToHome,
         searchData,
         setSearchData,
-        favourite, 
+        favourite,
         setFavourite,
         searchParam,
         goTo,

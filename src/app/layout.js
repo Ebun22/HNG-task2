@@ -2,6 +2,7 @@
 import './globals.css'
 import StateContext from '@/context/context'
 import { Inter } from 'next/font/google'
+import { ToastContainer, toast } from 'react-toastify';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,6 +17,16 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
       <StateContext>
         <main className="flex w-full max-w-screen-xl min-h-screen overflow-hidden">{children}</main>
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+      />
       </StateContext>
       </body>
       
