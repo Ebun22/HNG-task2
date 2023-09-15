@@ -207,11 +207,11 @@ const StateContext = ({ children }) => {
         getMovieCredit();
     }, [params])
 
-    const handleSearchInput = async(event) => {
+    const handleSearchInput = async (event) => {
         setSearchParam(event.target.value)
     }
 
-    const handleSearch = async() => {
+    const handleSearch = async () => {
         setSearch(true)
         console.log(search)
         console.log(searchParam)
@@ -234,6 +234,11 @@ const StateContext = ({ children }) => {
             throw new Error("poor nextwork connection")
         }
         console.log(searchData)
+    }
+
+    const handleBackToHome = () => {
+        setSearch(false)
+        console.log(search)
     }
 
     //goto function for the carousel
@@ -278,7 +283,8 @@ const StateContext = ({ children }) => {
         search,
         handleSearchInput,
         handleSearch,
-        searchData, 
+        handleBackToHome,
+        searchData,
         setSearchData,
         searchParam,
         goTo,

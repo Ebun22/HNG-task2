@@ -12,6 +12,7 @@ export default function Home({ searchParams }) {
     console.log(movieCredits)
     const { backdrop_path, imdb_id, vote_count, original_language, genres, vote_average, overview, original_title, poster_path, release_date, runtime } = movieDetails
 
+    console.log(genres)
     const getCrew = () => {
         if (!movieCredits) {
             return []; // Handle the case where movieCredits is not available
@@ -51,10 +52,10 @@ export default function Home({ searchParams }) {
                 </div>
                 <div className="flex flex-row w-full">
                     <div className="flex flex-col w-full">
-                        <div className="flex flex-row w-full">
-                            <div className="flex flex-row w-full text-medium text-base">
+                        <div className="flex flex-row w-full py-4">
+                            <div className="flex flex-row w-full font-medium text-base  ">
                                 <p>{original_title}</p>
-                                <span></span>
+                                <span className="block bg-black rounded-full w-2.5 h-2 "></span>
                                 <p>{release_date}</p>
                                 <span></span>
                                 <p>{release_date}</p>
@@ -62,10 +63,16 @@ export default function Home({ searchParams }) {
                                 <p>{runtime}</p>
                                 <span></span>
                             </div>
-                            <div className="flex flex-row w-full text-rose-700 p-1 border-solid border border-rose-700 rounded-lg">
-                                {genres?.map((item, index) => {
-                                    <p key={index}>{item.name}</p>
-                                })}
+                            <div className="flex flex-row ml-4">
+                                {genres?.map((item, index) => (
+                                    <p
+                                        key={index}
+                                        className="text-rose-700 p-1 border-solid border border-rose-700 rounded-full px-4"
+                                    >
+                                        {item.name}
+                                    </p>
+                                )
+                                )}
                             </div>
                         </div>
                         <p>
