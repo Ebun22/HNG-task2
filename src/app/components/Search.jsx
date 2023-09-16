@@ -14,7 +14,7 @@ const Search = () => {
                 <Loading />
             ) : (
                 <>
-                    <div className='w-full h-full p-24 grid grid-cols-4 gap-12 pb-12'>
+                    <div className='w-full h-full px-4 md:px-24 pb-4 md:pb-24 pt-6 md:pt-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-12'>
                         {
                             searchData?.map((item, index) => (
                                 <Link

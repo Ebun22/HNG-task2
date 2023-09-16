@@ -39,7 +39,7 @@ const SideNavBar = () => {
                         height={20}
                         className="mr-2"
                     />
-                   <p > Movies</p>
+                   <span > Movies</span>
                 </p>
                 <p className='flex flex-row align-middle pl-8 p-4'>
                     <Image

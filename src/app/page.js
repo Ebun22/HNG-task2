@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image'
-import { Banner, Footer, LandingPage, MovieList, Search } from './components'
+import { Banner, Footer,MovieList, Search } from './components'
 import { useStateContext } from '@/context/context'
 
 export default function Home() {

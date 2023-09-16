@@ -216,7 +216,7 @@ const StateContext = ({ children }) => {
             });
 
             const result = await response.json();
-            if (!result.results) {
+            if (result.results) {
                 setSearchData(result.results)
                 console.log(searchParam)
             } else {

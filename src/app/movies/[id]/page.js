@@ -3,11 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { useStateContext } from '@/context/context';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SideNavBar } from '../components';
+import { SideNavBar } from '../../components';
 
 
-export default function Home({ searchParams }) {
+export default function Home({ searchParams, params }) {
 
+    console.log(params)
     const { date, setDate, baseURL, movieCredits, setParams, movieDetails } = useStateContext()
 
     const { vote_count, genres, vote_average, overview, original_title, poster_path, release_date, runtime } = movieDetails
@@ -46,8 +47,10 @@ export default function Home({ searchParams }) {
         setDate(formattedDate)
     }
 
+    //storing the id into a state
     useEffect(() => {
-        setParams(searchParams.id)
+        setParams(searchParams.ids)
+        setParams(params.id)
     }, [])
 
     useEffect(() => {
@@ -121,7 +124,7 @@ export default function Home({ searchParams }) {
                             ) : (
                                 <p>No directors found.</p>
                             )}
-                            <p className="flex flex-row pb-4  font-light">Writers:
+                            <div className="flex flex-row pb-4  font-light">Writers:
                                 {movieCredits ? (
                                     movieCredits.crew?.filter(item => item.known_for_department == "Writing" & item.job == "Screenplay").map(item => (
                                         <span className="text-rose-700 font-normal">{" " + item.name}</span>
@@ -130,8 +133,8 @@ export default function Home({ searchParams }) {
                                     <p>No Writers</p>
                                 )
                                 }
-                            </p>
-                            <p className="flex flex-row pb-4 font-light">Stars:
+                            </div>
+                            <div className="flex flex-row pb-4 font-light">Stars:
                                 {movieCredits ? (
                                     movieCredits.cast?.slice(0, 3).map((item, index) => (
                                         <span key={index} className="text-rose-700 font-normal">{index < movieCredits.cast?.slice(0, 3).length - 1 ? item.name + ", " : item.name + " "}</span>
@@ -140,7 +143,7 @@ export default function Home({ searchParams }) {
                                     <p className="text-rose-700">No stars</p>
                                 )
                                 }
-                            </p>
+                            </div>
                         </div>
                         <div className="flex flex-row pt-6 w-full">
                             <p className="p-2 bg-rose-700 rounded-lg text-center text-white w-1/3"> Top rated movie #65</p>

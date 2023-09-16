@@ -36,7 +36,7 @@ const MovieList = () => {
                 {allData.slice(0, 10).map((item, index) => (
                     <Link
                         href={{
-                            pathname: "/details",
+                            pathname: `/movies/${item.id}`,
                             query: {
                                 id: item.id
                             },
@@ -44,7 +44,7 @@ const MovieList = () => {
                         onClick={() => getMovieDetails()}>
                         <div
                             key={index}
-                            className="relative w-full h-full pb-"
+                            className="relative w-full h-full"
                             data-testid="movie-card"
                         >
                             <div className='w-full relative' >
@@ -68,11 +68,9 @@ const MovieList = () => {
                             </div>
 
                             <div className='text-left w-full pt-1 h-32'>
-                                <p className='text-left text-sm text-slate-500 w-full pb-3' data-testid="movie-release-date">
-                                    {/* {getCountries(item.id)} */}
-                                    {/* {getCountryNames(item.original_language.toUpperCase())} */}
+                                <p className='text-left text-sm text-slate-500 w-full pb-3'>
                                     <span>USA, </span>
-                                    {item.release_date.slice(0, 4)}</p>
+                                    <span data-testid="movie-release-date">{item.release_date.slice(0, 4)}</span></p>
                                 <p className='text-left font-bold pb-0 pt-1' data-testid="movie-title">{item.title}</p>
                                 <div className='flex flex-row text-sm'>
 
