@@ -8,7 +8,6 @@ import { SideNavBar } from '../../components';
 
 export default function Home({ searchParams, params }) {
 
-    console.log(params)
     const { date, setDate, baseURL, movieCredits, setParams, movieDetails } = useStateContext()
 
     const { vote_count, genres, vote_average, overview, original_title, poster_path, release_date, runtime } = movieDetails
