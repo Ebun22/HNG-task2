@@ -18,9 +18,9 @@ const MovieList = () => {
 
     return (
         <>
-            <div className="flex flex-row p-24 pt-28 pb-0 w-full">
-                <p className="flex flex-row w-1/2 text-4xl font-bold text-left">Featured Movie</p>
-                <p className="flex flex-row w-1/2 text-base text-rose-700 justify-end">See More
+            <div className="flex flex-col md:flex-row p-4 md:p-24 pt-6 md:pt-28 pb-0 w-full">
+                <p className="flex flex-row w-full md:w-1/2 text-4xl font-bold text-left">Featured Movie</p>
+                <p className="flex flex-row w-full md:w-1/2 text-base text-rose-700 justify-end mt-2 md:mt-0">See More
                     <span>
                         <Image
                             src="/images/Chevron right.png"
@@ -32,7 +32,7 @@ const MovieList = () => {
                     </span>
                 </p>
             </div>
-            <div className='w-full h-full px-24 pb-24 pt-14 grid grid-cols-4 gap-12'>
+            <div className='w-full h-full px-4 md:px-24 pb-4 md:pb-24 pt-6 md:pt-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-12'>
                 {allData.slice(0, 10).map((item, index) => (
                     <Link
                         href={{

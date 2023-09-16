@@ -1,4 +1,3 @@
-import { useRouter } from 'next/navigation';
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,6 +27,7 @@ const StateContext = ({ children }) => {
     const [search, setSearch] = useState(false);
     const [favourite, setFavourite] = useState(Array(allData.length).fill(false));
     const [carouselItem, setCarouselItem] = useState('')
+    const [date, setDate] = useState('')
     const [searchParam, setSearchParam] = useState('')
     const [params, setParams] = useState('')
     const [newBanner, setNewBanner] = useState([])
@@ -35,8 +35,6 @@ const StateContext = ({ children }) => {
     const [bannerURL, setBannerURL] = useState('https://api.themoviedb.org/3/movie/upcoming?api_key=676abacf856fab82a2a03223135d9541')
     const [URL, setURL] = useState('https://api.themoviedb.org/3//movie/top_rated?api_key=676abacf856fab82a2a03223135d9541')
     const baseURL = "https://www.themoviedb.org/t/p/original/"
-
-    const route = useRouter()
 
     //Fetch all the movies on home page
     const getAllMovies = async () => {
@@ -49,15 +47,13 @@ const StateContext = ({ children }) => {
                 })
             })
 
-            if (response.success) {
-                const data = await response.json()
+            const data = await response.json()
+            if (data.results) {
                 setAllData(data.results)
-                console.log(allData)
             } else {
                 console.log("opps! there has been an error")
                 toast.error("data server seems to be having an issue")
             }
-
         } catch (error) {
             toast.error("Poor network connection. Please try again")
             throw new Error("Poor network connection. Please try again")
@@ -83,11 +79,11 @@ const StateContext = ({ children }) => {
                     },
                 });
 
-                if (response.success) {
-                    const data = await response.json()
-                    // Append genres to previous data
-                    setGenreData((prevGenreData) => [...prevGenreData, ...data.genres]);
-                    return data
+                const data = await response.json()
+                if (data) {
+                     // Append genres to previous data
+                     setGenreData((prevGenreData) => [...prevGenreData, ...data.genres]);
+                     return data
                 } else {
                     toast.error("data server seems to be having an issue")
                     throw new Error('API call failed');
@@ -120,8 +116,8 @@ const StateContext = ({ children }) => {
                 })
             })
 
-            if (response.success) {
-                const data = await response.json()
+            const data = await response.json()
+            if (data.results) {
                 setBannerData(data.results)
             } else {
                 toast.error("data server seems to be having an issue")
@@ -143,8 +139,9 @@ const StateContext = ({ children }) => {
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzZhYmFjZjg1NmZhYjgyYTJhMDMyMjMxMzVkOTU0MSIsInN1YiI6IjY0ZmU1MGY1ZGI0ZWQ2MTAzODU0ZTVkNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NIqNLJXoV7VEg-dInb4lqDa5-vEdbVNf4NShDgP-L8c'
                 })
             });
-            if (response.success) {
-                const result = await response.json()
+
+            const result = await response.json()
+            if (result) {
                 setMovieDetails(result)
             } else {
                 toast.error("data server seems to be having an issue")
@@ -166,8 +163,8 @@ const StateContext = ({ children }) => {
                 })
             });
 
-            if (response.success) {
-                const result = await response.json()
+            const result = await response.json()
+            if (result) {
                 setMovieCountry(result)
             } else {
                 toast.error("data server seems to be having an issue")
@@ -177,8 +174,6 @@ const StateContext = ({ children }) => {
             throw new Error("Poor network connection. Please try again")
         }
     }
-
-
 
     //get the credits of each movie
     const getMovieCredit = async () => {
@@ -192,8 +187,8 @@ const StateContext = ({ children }) => {
                 })
             });
 
-            if (response.success) {
-                const result = await response.json();
+            const result = await response.json();
+            if (result) {
                 setMovieCredits(result)
             } else {
                 toast.error("data server seems to be having an issue")
@@ -220,9 +215,8 @@ const StateContext = ({ children }) => {
                 })
             });
 
-            if (response.success) {
-                const result = await response.json();
-                console.log(result)
+            const result = await response.json();
+            if (!result.results) {
                 setSearchData(result.results)
                 console.log(searchParam)
             } else {
@@ -269,7 +263,7 @@ const StateContext = ({ children }) => {
     useEffect(() => {
         getAllGenres();
     }, [language])
-    
+
     const value = {
         allData,
         bannerData,
@@ -297,6 +291,8 @@ const StateContext = ({ children }) => {
         setCarouselItem,
         getCountries,
         search,
+        date, 
+        setDate,
         handleSearchInput,
         handleSearch,
         handleBackToHome,

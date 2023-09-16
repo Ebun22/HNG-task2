@@ -25,14 +25,11 @@ export function Carousel() {
                             alt={item.title}
                             className='w-full h-full object-cover'
                         />
-                        <div onClick={prevSlide} className='h-full w-6 top-72 bottom-0 left-0 opacity-20 group-hover:block absolute -translate-x-0 translate-y-[-50%] z-30 text-2xl rounded-full p-2 bg-red-700 text/white cursor-pointer'>
+                        <div onClick={prevSlide} className='h-full w-6 top-72 bottom-0 left-0 opacity-20 group-hover:block absolute -translate-x-0 translate-y-[-50%] z-30 text-2xl  p-2  text/white cursor-pointer'>
                             <span className="prev z-30" >&#10094;</span>
                         </div>
-                        <div onClick={nextSlide} className='h-full w-8 top-72 bottom-0 right-0 opacity-20 group-hover:block absolute -translate-x-0 translate-y-[-50%] z-30 text-2xl rounded-full p-2 bg-Black/20 text/white cursor-pointer'>
+                        <div onClick={nextSlide} className='h-full w-8 top-72 bottom-0 right-0 opacity-20 group-hover:block absolute -translate-x-0 translate-y-[-50%] z-30 text-2xl  p-2 bg-Black/20 text/white cursor-pointer'>
                             <span className="next z-30" >&#10095;</span>
-                        </div>
-                        <div>
-                            {/* {setCarouselItem(item)} */}
                         </div>
                     </div>
 

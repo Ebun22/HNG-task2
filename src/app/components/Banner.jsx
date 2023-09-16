@@ -9,9 +9,9 @@ const Banner = () => {
     const index = [1, 2, 3, 4, 5]
     return (
         <div className="h-screen">
-            <div className="w-full h-full bg-black/50 text-white absolute top-0 bottom-0 left-0 right-0 pt-6 px-24 z-10">
+            <div className="w-full h-full bg-black/50 text-white absolute top-0 bottom-0 left-0 right-0 pt-6 px-4 md:px-24 z-10">
                 {/* navbar */}
-                <div className="flex flex-row w-full">
+                <div className="flex flex-col md:flex-row w-full">
                     <div className="flex flex-row">
                         <Image
                             src="/images/tv.png"
@@ -22,8 +22,8 @@ const Banner = () => {
                         />
                         <p className="font-bold mt-4">MovieBox</p>
                     </div>
-                    <div className="flex flex-row m-auto p-1 justify-center w-2/5 border-solid border border-white rounded-lg ">
-                        <input type="text" placeholder="what do you want to search" onChange={(event) => handleSearchInput(event)} className="bg-transparent outline-none pl-1.5 w-1/2" />
+                    <div className="flex flex-row m-auto p-1 justify-center w-full md:w-2/5 border-solid border border-white rounded-lg mt-4 md:mt-0">
+                        <input type="text" placeholder="what do you want to search" onChange={(event) => handleSearchInput(event)} className="bg-transparent outline-none pl-1.5 w-1/2 cursor-pointer" />
                         <div className="relative top-2 bottom-0 z-20 right-0 w-1/2 h-2" onClick={handleSearch}>
                             <Image
                                 src="/images/Icon.png"
@@ -34,7 +34,7 @@ const Banner = () => {
                             />
                         </div>
                     </div>
-                    <div className="text-white flex flex-row z-30 w-1/5 justify-end">
+                    <div className="text-white flex flex-row z-30 md:w-1/5 justify-end mt-4 md:mt-0">
                         <p className="mr-5">Sign in</p>
                         <div className="rounded-full px-2 w-8 h-8 text-center bg-rose-700 ">
                             <Image
@@ -49,8 +49,8 @@ const Banner = () => {
                 </div>
 
                 {/* details */}
-                <div className="flex flex-row">
-                    <div className="mt-32 w-1/2 mr-38 h-full text-white">
+                <div className="flex flex-col md:flex-row">
+                    <div className="md:mt-32 w-full md:w-1/2 mr-4 md:mr-38  h-full text-white">
                         {
                             newBanner?.map((item, index) => (
                                 <div
@@ -59,7 +59,7 @@ const Banner = () => {
                                         }`}
                                 >
                                     <h2 className="text-5xl text-bold text-white">{item.title}</h2>
-                                    <div className='flex flex-row mt-2 w-1/2'>
+                                    <div className='flex flex-row mt-2 w-full md:w-1/2'>
                                         <span className="flex flex-row w-1/2 ">
                                             <Image
                                                 src="/images/IMDB.png"
@@ -76,7 +76,7 @@ const Banner = () => {
                                         </span>
 
                                     </div>
-                                    <p className="mt-2">
+                                    <p className="md:w-full mt-2 ">
                                         {item.overview}
                                     </p>
                                     <button className="flex flex-row bg-red-600 rounded-lg text-center p-2 mt-5"> <Image src="/images/Play.png" alt='imdb logo' width={25} height={25} />WATCH TRAILER</button>

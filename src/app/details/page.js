@@ -7,12 +7,11 @@ import { SideNavBar } from '../components';
 
 
 export default function Home({ searchParams }) {
-    const [date, setDate] = useState('')
-    const { allData, baseURL, movieCredits, detailCountry, setDetailLang, setDetailCountry, getGenrefromID, genreData, setParams, genreNames, getMovieDetails, movieDetails, setLanguage } = useStateContext()
-    console.log(movieCredits)
-    const { backdrop_path, imdb_id, vote_count, original_language, genres, vote_average, overview, original_title, poster_path, release_date, runtime } = movieDetails
 
-    console.log(genres)
+    const { date, setDate, baseURL, movieCredits, setParams, movieDetails } = useStateContext()
+
+    const { vote_count, genres, vote_average, overview, original_title, poster_path, release_date, runtime } = movieDetails
+
     const getCrew = () => {
         if (!movieCredits) {
             return []; // Handle the case where movieCredits is not available
@@ -30,7 +29,10 @@ export default function Home({ searchParams }) {
     const directors = getCrew();
 
     //to convert Date to UTC format
-    const formatDataInUTC = () => {
+    const formatDateInUTC = () => {
+        if (!release_date) {
+            return;
+        }
         const options = {
             weekday: 'short',
             day: '2-digit',
@@ -46,52 +48,54 @@ export default function Home({ searchParams }) {
 
     useEffect(() => {
         setParams(searchParams.id)
-        formatDataInUTC()
     }, [])
 
-
+    useEffect(() => {
+        formatDateInUTC()
+    }, [release_date])
 
     return (
-        <div className=' w-full h-full flex flex-row'>
-            <div className="w-1/5 min-h-screen top-0 left-0 right-0">
+        <div className=' w-full h-full flex flex-row md:flex-row'>
+            <div className="w-1/5 min-h-screen top-0 left-0 right-0 hidden md:block">
                 <SideNavBar />
             </div>
 
-            <div className="w-4/5 px-12 my-8 relative right-0">
-                <div className='w-full h-64' >
-                    <img
+            <div className="w-4/5 md:w-full md:px-4 my-8 w-full relative right-0">
+                <div className='w-full h-64'>
+                    <Image
                         width={150}
                         height={100}
                         src={`${baseURL}${poster_path}`}
-                        alt={original_title}
+                        alt="movie poster"
                         className='w-full h-full object-fit rounded-lg'
                     />
                     <div className='absolute z-20 top-0 bottom-0 left-0 right-0  h-56 mt-14'>
                         <div className="flex flex-col justify-center">
-                            <img
+                            <Image
                                 width={100}
                                 height={100}
                                 src='/images/play-button.png'
                                 alt="play"
                                 className='relative z-20 m-auto mt-18'
                             />
-                             <p className="flex flex-col justify-center m-auto text-white">Watch Trailer</p>
+                            <p className="flex flex-col justify-center m-auto text-white">Watch Trailer</p>
                         </div>
-
                     </div>
                 </div>
-                <div className="flex flex-row w-full">
-                    <div className="flex flex-col w-full">
-                        <div className="flex flex-row w-full py-4">
-                            <div className="flex flex-row w-full font-medium text-base space-evenly mt-2">
-                                <p className='grow w-full' data-testid='movie-title'>{original_title}</p>
+
+                <div className="flex flex-row w-full md:flex flex-col w-full">
+                    <div className="flex flex-col w-full md:w-full px-4">
+                        <div className="flex flex-row w-full py-4 md:flex flex-col w-full">
+                            <div className="flex flex-row w-full font-medium text-base space-evenly">
+                                <p className='grow w-full mt-4' data-testid='movie-title'>{original_title}</p>
                                 <span className="block bg-black rounded-full w- h-1 p-1 mt-6 mr-3"></span>
                                 <p className='grow w-full mt-4' data-testid='movie-release-date'>{date}</p>
                                 <span className="block bg-black rounded-full w- h-1 p-1 mt-6 mr-3"></span>
-                                <p className="flex flex-row w-full py-4 w-12"><p className='alighn-middle' data-testid='movie-runtime'>{runtime}</p><span>mins</span></p>
-                                <span></span>
+                                <p className="flex flex-row w-full py-4 w-12">
+                                    <span data-testid='movie-runtime'>{runtime}</span><span>mins</span>
+                                </p>
                             </div>
-                            <div className="flex flex-row w-1/4 mt-2">
+                            <div className="flex flex-row w-1/4 mt-4 h-8">
                                 {genres?.map((item, index) => (
                                     <p
                                         key={index}
@@ -111,7 +115,7 @@ export default function Home({ searchParams }) {
                                 <p className="flex flex-row pb-4 font-light">
                                     Directors:
                                     {directors?.map((director, index) => (
-                                        <p key={index} className="text-rose-700 font-normal">{" " + director}</p>
+                                        <span key={index} className="text-rose-700 font-normal">{" " + director}</span>
                                     ))}
                                 </p>
                             ) : (
@@ -120,7 +124,7 @@ export default function Home({ searchParams }) {
                             <p className="flex flex-row pb-4  font-light">Writers:
                                 {movieCredits ? (
                                     movieCredits.crew?.filter(item => item.known_for_department == "Writing" & item.job == "Screenplay").map(item => (
-                                        <p className="text-rose-700 font-normal">{" " + item.name}</p>
+                                        <span className="text-rose-700 font-normal">{" " + item.name}</span>
                                     ))
                                 ) : (
                                     <p>No Writers</p>
@@ -130,7 +134,7 @@ export default function Home({ searchParams }) {
                             <p className="flex flex-row pb-4 font-light">Stars:
                                 {movieCredits ? (
                                     movieCredits.cast?.slice(0, 3).map((item, index) => (
-                                        <p key={index} className="text-rose-700 font-normal">{index < movieCredits.cast?.slice(0, 3).length - 1 ? item.name + ", " : item.name + " "}</p>
+                                        <span key={index} className="text-rose-700 font-normal">{index < movieCredits.cast?.slice(0, 3).length - 1 ? item.name + ", " : item.name + " "}</span>
                                     ))
                                 ) : (
                                     <p className="text-rose-700">No stars</p>
@@ -140,8 +144,8 @@ export default function Home({ searchParams }) {
                         </div>
                         <div className="flex flex-row pt-6 w-full">
                             <p className="p-2 bg-rose-700 rounded-lg text-center text-white w-1/3"> Top rated movie #65</p>
-                            <p className="flex flex-row w-1/3 pt-4 pl-2 border-y border-r border-slate-300 rounded-r-lg">
-                                <p>Awards 9 nominations</p>
+                            <p className="flex flex-row w-1/3 pt-4 pl-2 border-y border-r border-slate-300 rounded-r-lg md:w-full">
+                                <span className="md:block w-full ">Awards 9 nominations</span>
                                 <Image
                                     src="/images/arrow_down.png"
                                     alt="movie"
@@ -152,6 +156,7 @@ export default function Home({ searchParams }) {
                             </p>
                         </div>
                     </div>
+
                     <div className='w-1/3 ml-2 mt-8'>
                         <div className="w-full flex flex-row">
                             <Image
@@ -159,7 +164,7 @@ export default function Home({ searchParams }) {
                                 alt="movie"
                                 width={25}
                                 height={25}
-                                className=" mr-1 mb-3 w-6 h-6"
+                                className="mr-1 mb-3 w-6 h-6"
                             />
                             <Image
                                 src="/images/Share.png"
@@ -187,11 +192,11 @@ export default function Home({ searchParams }) {
                                 <p className="text-base pl-2">{vote_count}</p>
                             </div>
                         </div>
-                        <div className="mt-3">
+                        <div className="mt-3 md:flex flex-row">
                             <button className="p-2 px-4 bg-rose-700 text-white text-center rounded-lg w-full mb-2">See Showtimes</button>
                             <button className="p-2 px-4 bg-rose-100 rounded-lg w-full text-center border border-rose-700">More watch options</button>
                         </div>
-                        <div >
+                        {/* <div >
                             <Image
                                 src="/"
                                 alt="movie"
@@ -210,11 +215,16 @@ export default function Home({ searchParams }) {
                                 width={100}
                                 height={200}
                             />
-                        </div>
-
+                        </div> */}
                     </div>
                 </div>
             </div>
+
+            {/* <div className="w-1/5 min-h-screen md:hidden">
+               <div className='w-2 h-2 bg-black'></div>
+               <div className='w-2 h-2 bg-black'></div>
+               <div className='w-2 h-2 bg-black'></div>
+            </div> */}
 
         </div>
     )
