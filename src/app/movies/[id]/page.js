@@ -48,7 +48,6 @@ export default function Home({ searchParams, params }) {
 
     //storing the id into a state
     useEffect(() => {
-        setParams(searchParams.ids)
         setParams(params.id)
     }, [])
 

@@ -36,10 +36,7 @@ const MovieList = () => {
                 {allData.slice(0, 10).map((item, index) => (
                     <Link
                         href={{
-                            pathname: `/movies/${item.id}`,
-                            query: {
-                                id: item.id
-                            },
+                            pathname: `/movies/${item.id}`
                         }}
                         onClick={() => getMovieDetails()}>
                         <div
